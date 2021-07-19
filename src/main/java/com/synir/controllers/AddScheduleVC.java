@@ -80,9 +80,11 @@ public class AddScheduleVC {
     private UserSession session;
 
     public void initialize() {
+        //获取Beans
         ApplicationContext applicationContext = ApplicationContextUtils.getApplicationContext();
         helper = (Helper) applicationContext.getBean("Helper");
 
+        //准备排班数据源
         ArrayList<String> companyinput = helper.readCompany();
         companylist = FXCollections.observableArrayList();
         if (companyinput.size() != 0) {
@@ -90,12 +92,14 @@ public class AddScheduleVC {
         }
         this.schedule = helper.readSchedule(helper.getScheduleUID());
 
-        initializeSchecduleView();
-        initializeCompanyView();
-        draglocation();
-        setScreenshot();
-        titleField.setText(helper.getTitle());
+        initializeSchecduleView();//初始化排班TableView
+        initializeCompanyView();////初始化客户列表TableView
+        draglocation();//初始化拖拽添加功能
+        setScreenshot();//初始化截图功能
+        
+        titleField.setText(helper.getTitle());//获取并填充文件标题名
 
+        //权限choicebox以及初始化显示的选项
         levellist = FXCollections.observableArrayList();
         session = (UserSession) applicationContext.getBean("UserSession");
         int curr_levl = session.getLevel();
@@ -105,12 +109,17 @@ public class AddScheduleVC {
         }
         levellist.add("仅对上级可见");
         levelcbox.setItems(levellist);
+        
+        //当访问者并非当前文件创始者，禁用保存和删除文件功能
         if (!session.getUsername().equals(helper.getCreator())) {
             saveBtn.setVisible(false);
             deleteBtn.setVisible(false);
         }
+        
+        //设置滚动轴属性，将不必要的隐藏
         timeslotview.getStylesheets().add("scrollbar.css");
         scheduletable.getStylesheets().add("scrollbar.css");
+        //bind两个tableview滚动轴属性，使其监听同一中间滚动轴
         scrollBar.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
@@ -118,10 +127,12 @@ public class AddScheduleVC {
                 timeslotview.scrollTo(t1.intValue());
             }
         });
-
+        
+        //colunm显示星期
         weekdate = new String[31];
         Arrays.fill(weekdate,"无");
 
+        //如果文件指定了特定年月，则会获取填充，否则文本框为空
         int year = helper.getYear();
         int month = helper.getMonth();
         yearField.setText(String.valueOf(year).equals("0") ? "" : String.valueOf(year));
