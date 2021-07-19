@@ -15,22 +15,13 @@ import java.nio.file.NoSuchFileException;
 @Configuration
 public class FileUploadUtil {
 
-    @Value("${remoteServer.url}")
-    private String url;
-
-    @Value("${remoteServer.password}")
-    private String passWord;
-
-    @Value("${remoteServer.username}")
-    private String userName;
-
     @Async
     public ResultEntity uploadFile(File file, String targetPath, String remoteFileName) throws Exception{
         ScpConnectEntity scpConnectEntity=new ScpConnectEntity();
         scpConnectEntity.setTargetPath(targetPath);
-        scpConnectEntity.setUrl("47.103.118.75");
-        scpConnectEntity.setPassWord("898421aA!");
-        scpConnectEntity.setUserName("root");
+        scpConnectEntity.setUrl("xxxxxxxx");
+        scpConnectEntity.setPassWord("xxxxxxx");
+        scpConnectEntity.setUserName("xxxxxxxx");
         String code = null;
         String message = null;
         try {
@@ -231,24 +222,7 @@ public class FileUploadUtil {
             is.close();
             os.close();
             System.out.println("copy ok");
-
-
-
-
-//            StringBuilder sb = new StringBuilder();
-//            byte[] arr = new byte[4096];
-//            int read;
-//            while (true) {
-//                read = scpi.read(arr);
-//                if (read < 0) {break;}
-//                sb.append(new String(arr,"UTF-8"));
-//                //sb.append(arr);
-//            }
-//            String[] s = sb.toString().split("\u0000\u0001");
-//
-//            for(String e:s){
-//                System.out.println(e);
-//            }
+            
         } catch (IOException e){
             e.printStackTrace();
         }finally {
