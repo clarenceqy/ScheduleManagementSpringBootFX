@@ -10,5 +10,5 @@ schedules.
 - [SpringBoot]
 - [JPA Layer]
 - [MySQL]
-- [Aliyun Elastic]
+- [Aliyun Elastic Cloud Server]
 
